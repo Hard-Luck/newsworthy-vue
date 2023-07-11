@@ -5,10 +5,7 @@ export default function isToken() {
   return !!token;
 }
 
-export async function redirectIfNoToken(
-  to: RouteLocationNormalized,
-  from: RouteLocationNormalized
-) {
+export async function redirectIfNoToken(to: RouteLocationNormalized) {
   if (!isToken() && to.path !== "/") {
     return { path: "/" };
   }
