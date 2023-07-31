@@ -2,6 +2,7 @@
 import { ArticleFromApi } from "../../types/api";
 defineProps<{ article: ArticleFromApi }>();
 </script>
+
 <template>
   <article>
     <div class="article-top">

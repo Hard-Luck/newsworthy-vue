@@ -74,6 +74,10 @@ export async function getArticleComments(id: string) {
 
 export async function voteOnArticle(id: string) {
   const { data } = await api.patch(`/articles/${id}`, { inc_votes: 1 });
+  return data;
+}
 
+export async function postComment(id: string, body: string) {
+  const { data } = await api.post(`/articles/${id}/comments`, { body });
   return data;
 }
