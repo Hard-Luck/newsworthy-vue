@@ -1,6 +1,17 @@
 <template>
   <div>
     <div>
+      <select v-model="orderRef" @change="updateArticles">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+      </select>
+      <select v-model="sortByRef" @change="updateArticles">
+        <option value="created_at">Date</option>
+        <option value="title">Title</option>
+        <option value="votes">Votes</option>
+        <option value="author">Author</option>
+      </select>
+
       <div v-for="(article, index) in articles" :key="index">
         <router-link :to="`/articles/${article.article_id}`">
           <ArticleCard :article="article" />
@@ -11,12 +22,42 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
+import { ref, watchEffect } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { getArticles } from "../../utils/api";
 import ArticleCard from "./ArticleCard.vue";
-const router = useRouter();
-const topic = router.currentRoute.value.params.topic as string;
-const articles = await getArticles(topic);
-</script>
+import { ArticleFromApi } from "../../types/api";
 
-<style lang="css" scoped></style>
+const router = useRouter();
+const route = useRoute();
+const topic = route.params.topic as string;
+
+let orderRef = ref(route.query.order as "asc" | "desc"); // default to "asc" if no order param
+let sortByRef = ref(route.query.sort_by as "title" | "created_at" | "votes"); // default to "date" if no sort_by param
+
+let articles = ref<ArticleFromApi[]>([]);
+
+// Fetch articles initially
+updateArticles();
+
+watchEffect(async () => {
+  if (
+    route.query.order !== orderRef.value ||
+    route.query.sort_by !== sortByRef.value
+  ) {
+    await updateArticles();
+  }
+});
+
+async function updateArticles() {
+  // Push the new query to the router
+  router.push({ query: { order: orderRef.value, sort_by: sortByRef.value } });
+
+  // Fetch new articles
+  articles.value = await getArticles({
+    topic,
+    order: orderRef.value,
+    sort_by: sortByRef.value,
+  });
+}
+</script>

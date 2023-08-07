@@ -35,9 +35,18 @@ api.interceptors.response.use(
   }
 );
 
-export async function getArticles(topic?: string) {
+interface ArticleOptions {
+  topic?: string;
+  sort_by?: "created_at" | "title" | "votes" | "author";
+  order?: "asc" | "desc";
+}
+export async function getArticles({ topic, sort_by, order }: ArticleOptions) {
   try {
-    const { data } = await api.get("/articles", { params: { topic } });
+    console.log(topic, sort_by, order);
+
+    const { data } = await api.get("/articles", {
+      params: { topic, sort_by, order },
+    });
     if (isArticleFromApiArray(data.articles)) {
       return data.articles as ArticleFromApi[];
     } else {
