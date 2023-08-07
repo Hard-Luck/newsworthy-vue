@@ -11,10 +11,12 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from "vue-router";
 import { getArticles } from "../../utils/api";
 import ArticleCard from "./ArticleCard.vue";
-
-const articles = await getArticles();
+const router = useRouter();
+const topic = router.currentRoute.value.params.topic as string;
+const articles = await getArticles(topic);
 </script>
 
 <style lang="css" scoped></style>

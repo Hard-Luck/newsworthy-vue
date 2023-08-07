@@ -5,6 +5,9 @@
         <h1>
           {{ article.title }}
         </h1>
+        <RouterLink :to="topicPath"
+          ><h2>{{ article.topic }}</h2></RouterLink
+        >
         <img
           class="article-img"
           :src="article.article_img_url"
@@ -25,7 +28,7 @@
 <script setup lang="ts">
 import { getArticleById } from "../../utils/api";
 
-import { useRouter } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import ArticleComments from "../articles/ArticleComments.vue";
 import { ref } from "vue";
 import { voteOnArticle } from "../../utils/api";
@@ -33,6 +36,7 @@ const router = useRouter();
 const id = router.currentRoute.value.params.id as string;
 const { article: temp } = await getArticleById(id);
 const article = ref(temp);
+const topicPath = "/topics/" + article.value.topic;
 let disabled = ref(false);
 const handleClick = (e: MouseEvent) => {
   e.preventDefault();

@@ -6,7 +6,7 @@ import LoadingSpinner from "./components/LoadingSpinner.vue";
 <template>
   <Suspense>
     <template #default>
-      <RouterView></RouterView>
+      <RouterView :key="$route.fullPath"></RouterView>
     </template>
     <template #fallback> <LoadingSpinner /></template>
   </Suspense>

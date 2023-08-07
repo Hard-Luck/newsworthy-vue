@@ -35,9 +35,9 @@ api.interceptors.response.use(
   }
 );
 
-export async function getArticles() {
+export async function getArticles(topic?: string) {
   try {
-    const { data } = await api.get("/articles");
+    const { data } = await api.get("/articles", { params: { topic } });
     if (isArticleFromApiArray(data.articles)) {
       return data.articles as ArticleFromApi[];
     } else {
