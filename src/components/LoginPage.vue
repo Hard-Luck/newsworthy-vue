@@ -13,6 +13,7 @@ export default {
       const data = await logIn(this.username, this.password);
       if (data.token) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("username", this.username);
         this.$router.push("/articles");
         this.logInError = false;
       } else {

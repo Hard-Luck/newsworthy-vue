@@ -1,13 +1,18 @@
 <template>
   <div>
     <PostCommentWizard
-      v-if="comments"
+      v-if="comments.comments && comments.comments.length"
       :id="id"
       :addComment="addComment"></PostCommentWizard>
   </div>
   <div>
-    <div v-for="(comment, index) in comments" :key="index">
+    <div v-for="(comment, index) in comments.comments" :key="index">
       <CommentCard :comment="comment" />
+      <button
+        v-if="comment.author === username"
+        :onclick="() => handleClick(comment)">
+        delete
+      </button>
     </div>
   </div>
 </template>
@@ -15,17 +20,24 @@
 <script setup lang="ts">
 import { Comment } from "./CommentCard.vue";
 import { useRouter } from "vue-router";
-import { getArticleComments } from "../../utils/api";
+import { deleteComment, getArticleComments, logIn } from "../../utils/api";
 import CommentCard from "./CommentCard.vue";
 import PostCommentWizard from "./PostCommentWizard.vue";
 import { ref } from "vue";
 const router = useRouter();
 const id = router.currentRoute.value.params.id as string;
-const { comments } = ref(await getArticleComments(id)).value as {
-  comments: Comment[];
-};
+const comments = ref(await getArticleComments(id));
+console.log(comments.value.comments);
+
+const username = localStorage.getItem("username");
 function addComment(comment: Comment) {
-  comments.unshift(comment);
+  comments.value.comments.unshift(comment);
+}
+async function handleClick(comment: Comment) {
+  await deleteComment(comment.comment_id as number);
+  comments.value.comments = comments.value.comments.filter(
+    (c: Comment) => c.comment_id !== comment.comment_id
+  );
 }
 </script>
 

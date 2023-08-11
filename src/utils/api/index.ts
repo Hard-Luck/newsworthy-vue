@@ -90,3 +90,7 @@ export async function postComment(id: string, body: string) {
   const { data } = await api.post(`/articles/${id}/comments`, { body });
   return data;
 }
+
+export async function deleteComment(id: number) {
+  return api.delete(`/comments/${id}`);
+}

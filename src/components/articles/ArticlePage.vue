@@ -1,11 +1,14 @@
 <template>
   <div>
     <div>
-      <select v-model="orderRef" @change="updateArticles">
+      <label for="orderSelect">Order:</label>
+      <select id="orderSelect" v-model="orderRef" @change="updateArticles">
         <option value="asc">Ascending</option>
         <option value="desc">Descending</option>
       </select>
-      <select v-model="sortByRef" @change="updateArticles">
+
+      <label for="sortBySelect">Sort By:</label>
+      <select id="sortBySelect" v-model="sortByRef" @change="updateArticles">
         <option value="created_at">Date</option>
         <option value="title">Title</option>
         <option value="votes">Votes</option>
@@ -50,10 +53,7 @@ watchEffect(async () => {
 });
 
 async function updateArticles() {
-  // Push the new query to the router
   router.push({ query: { order: orderRef.value, sort_by: sortByRef.value } });
-
-  // Fetch new articles
   articles.value = await getArticles({
     topic,
     order: orderRef.value,
