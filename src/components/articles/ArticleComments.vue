@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import { Comment } from "./CommentCard.vue";
 import { useRouter } from "vue-router";
-import { deleteComment, getArticleComments, logIn } from "../../utils/api";
+import { deleteComment, getArticleComments } from "../../utils/api";
 import CommentCard from "./CommentCard.vue";
 import PostCommentWizard from "./PostCommentWizard.vue";
 import { ref } from "vue";
