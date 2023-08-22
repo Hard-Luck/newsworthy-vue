@@ -3,7 +3,7 @@ import { ArticleFromApi, isArticleFromApiArray } from "../../types/api";
 const ENV = process.env.NODE_ENV || "development";
 const baseURL =
   ENV === "development"
-    ? "http://localhost:3000/api"
+    ? "http://localhost:9090/api"
     : "https://newsworthy.onrender.com/api";
 
 const api = axios.create({ baseURL });

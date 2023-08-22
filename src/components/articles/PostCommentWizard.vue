@@ -2,7 +2,7 @@
   <div>
     <form @submit.prevent="submitForm">
       <label for="commentBody">Comment Body:</label>
-      <input id="commentBody" v-model="commentBody" type="text" required />
+      <textarea id="commentBody" v-model="commentBody" type="text" required />
       <button :disabled="disabled" type="submit">Submit</button>
       <p v-if="isError">
         Sorry your comment could not be added, please try again later
@@ -38,3 +38,14 @@ async function submitForm() {
   }
 }
 </script>
+
+<style scoped>
+form {
+  display: flex;
+  flex-direction: column;
+}
+textarea {
+  min-height: 100px;
+  min-width: 300px;
+}
+</style>

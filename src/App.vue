@@ -10,7 +10,6 @@ import LoadingSpinner from "./components/LoadingSpinner.vue";
     </template>
     <template #fallback> <LoadingSpinner /></template>
   </Suspense>
-  <router-link to="/articles">Articles</router-link>
 </template>
 
 <style scoped>

@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div class="post-comments-container">
     <PostCommentWizard
       v-if="comments.comments && comments.comments.length"
       :id="id"
-      :addComment="addComment"></PostCommentWizard>
+      :addComment="addComment">
+    </PostCommentWizard>
   </div>
   <div>
     <div v-for="(comment, index) in comments.comments" :key="index">
@@ -27,7 +28,6 @@ import { ref } from "vue";
 const router = useRouter();
 const id = router.currentRoute.value.params.id as string;
 const comments = ref(await getArticleComments(id));
-console.log(comments.value.comments);
 
 const username = localStorage.getItem("username");
 function addComment(comment: Comment) {
@@ -41,4 +41,10 @@ async function handleClick(comment: Comment) {
 }
 </script>
 
-<style lang="css" scoped></style>
+<style lang="css" scoped>
+.post-comments-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
